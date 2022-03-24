@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "Datatables Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Datatables</h1>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+                <th>Option</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/api/data',
+                    type: 'GET',
+                    dataType: 'json',
+                },
+                columns: [
+                    { "data": "name" },
+                    { "data": "position" },
+                    { "data": "office" },
+                    { "data": "age" },
+                    { "data": "startDate" },
+                    { "data": "salary" },
+                    {
+                        "data": "id", render: function (data, type, row) {
+                            return `<a href="/api/data/' + data + '" class="btn btn-primary">Edit</a>
+                                    <a href="/api/data/' + data + '" class="btn btn-danger">Delete</a>`
+                        }
+                    },
+
+                ]
+            });
+        });
+    </script>
+}
